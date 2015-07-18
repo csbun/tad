@@ -11,17 +11,27 @@ li {
   list-style: none;
 }
 
+.card {
+  padding: 10px;
+  margin: 10px;
+  background-color: #fff;
+  input {
+    width: 100%;
+  }
+}
+
 // project-list
 .project-list {
   .item {
+    .card();
     float: left;
     width: 300px;
-    padding: 10px;
-    margin: 10px;
-    background-color: #fff;
-    input {
-      width: 100%;
-      display: -webkit-box;
-    }
+  }
+}
+.tad-list {
+  float: left;
+  width: 300px;
+  .item {
+    .card();
   }
 }

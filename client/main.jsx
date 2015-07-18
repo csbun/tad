@@ -1,12 +1,11 @@
-var { Route, DefaultRoute, RouteHandler } = ReactRouter;
+var { Link, Route, DefaultRoute, RouteHandler } = ReactRouter;
 
 var TapidApp = React.createClass({
   render: function () {
     return (
       <div>
         <nav>
-          <a href="#/">ProjectList</a> |
-          <a href="#/tapids">TapiList</a>
+          <Link to="home">Home</Link>
         </nav>
         <RouteHandler/>
       </div>
@@ -15,8 +14,9 @@ var TapidApp = React.createClass({
 });
 
 var routes = (
-  <Route name="app" path="/" handler={TapidApp}>
-    <Route name="tapids" handler={TapiList}/>
+  <Route name="home" path="/" handler={TapidApp}>
+    <Route name="project" path="project/:projectId" handler={Project}/>
+    <Route name="tad" path="project/:projectId/:tadId" handler={Project}/>
     <DefaultRoute handler={ProjectList}/>
   </Route>
 );

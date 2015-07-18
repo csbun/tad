@@ -1,12 +1,14 @@
-ProjectListItem = React.createClass({
-  render: function () {
-    let { name, git, ...rest } = this.props;
-    return <li className="item" {...rest}>
-      <span className="name">{name}</span>
-      <span className="git">{git}</span>
-    </li>;
-  }
-});
+let { Link } = ReactRouter;
+
+// ProjectListItem = React.createClass({
+//   render: function () {
+//     let { name, git, ...rest } = this.props;
+//     return <li className="item" {...rest}>
+//       <span className="name">{name}</span>
+//       <span className="git">{git}</span>
+//     </li>;
+//   }
+// });
 
 ProjectListEditItem = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
@@ -23,6 +25,7 @@ ProjectListEditItem = React.createClass({
         <p>
           <button onClick={this._onUpdateItem}>修改</button>
           <button onClick={this._onRemoveItem}>删除</button>
+          <Link to="project" params={{projectId: this.state._id}}>进入</Link>
         </p>
         :
         <p><button onClick={this._onInsertItem}>添加</button></p>;
@@ -42,7 +45,7 @@ ProjectListEditItem = React.createClass({
     }
   },
   _onInsertItem() {
-    Projects.insert(this.state, (err, res) => {
+    CollectionProjects.insert(this.state, (err, res) => {
       this._onCollectionCallback(err, res, () => {
           let s = Object.assign({}, this.props);
           for (let prop of Object.keys(this.state)) {
@@ -55,26 +58,27 @@ ProjectListEditItem = React.createClass({
     });
   },
   _onUpdateItem() {
-    Projects.update(this.state._id, this.state, this._onCollectionCallback);
+    CollectionProjects.update(this.state._id, this.state, this._onCollectionCallback);
   },
   _onRemoveItem() {
-    Projects.remove(this.state._id, this._onCollectionCallback);
+    CollectionProjects.remove(this.state._id, this._onCollectionCallback);
   }
 });
 
 ProjectList = React.createClass({
   mixins: [ReactMeteorData],
 
-  getMeteorData: function() {
+  getMeteorData() {
     return {
-      projects: Projects.find().fetch()
+      projects: CollectionProjects.find().fetch()
     };
   },
-  render: function function_name(argument) {
-    let projects = this.data.projects.map(p => <ProjectListEditItem {...p}></ProjectListEditItem>);
+  render() {
     return (
       <ul className="project-list">
-        { projects }
+        { this.data.projects.map(p =>
+          <ProjectListEditItem key={p._id} {...p}></ProjectListEditItem>
+        ) }
         <ProjectListEditItem></ProjectListEditItem>
       </ul>
     );
