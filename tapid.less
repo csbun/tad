@@ -1,37 +1,140 @@
-// reset
-html, body, div, ul, ol, li, p {
+@padding_1x: 10px;
+@font_size: 16px;
+
+@blue: #4285F4;
+@blue_light: #00BCD4;
+@gray: #E3E7EA;
+@green: #34A853;
+@ping: #FF4081;
+@red: #EA4335;
+@yellow: #FBBC05;
+
+/**
+ * reset
+ */
+html, body, div, ul, ol, li, h1, h2, h3, p {
   display: block;
   margin: 0;
   padding: 0;
+  line-height: 1.5em;
+}
+.a(@color) {
+  a, &:visited {
+    color: @color;
+    text-decoration: none;
+  }
 }
 body {
-  background-color: #ddd;
+  .a(@blue_light);
+  font-family: '微软雅黑','Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size: @font_size;
+  background-color: @gray;
 }
 li {
   list-style: none;
 }
 
+/**
+ * base
+ */
+.transition {
+  transition: 0.3s all;
+}
+.shadow {
+  box-shadow: 0 0 3px #666;
+}
 .card {
-  padding: 10px;
-  margin: 10px;
+  padding: @padding_1x;
+  margin: @padding_1x @padding_1x/2;
   background-color: #fff;
-  input {
-    width: 100%;
+}
+
+
+/**
+ * cmp
+ */
+input {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 100%;
+  margin: @padding_1x/2 0;
+  padding: @padding_1x/2 @padding_1x/2 2px;
+  border: none;
+  border-bottom: 1px solid @gray;
+  outline: none;
+  font-size: @font_size;
+  &:focus {
+    border-bottom-color: @blue;
   }
+}
+
+.button_color(@color) {
+  background: @color;
+  // color: hsl(100, 0%, round(1-lightness(@color)/100)*100);
+  color: #fff;
+  &:hover {
+    background: darken(@color, 10%);
+  }
+  &:active {
+    background: darken(@color, 1%);
+  }
+}
+.btn {
+  .button_color(#fff);
+  .transition();
+  margin: @padding_1x/2;
+  padding: @padding_1x/2 @padding_1x*2;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: @font_size;
+}
+.btn-blue:extend(.btn) {
+  .button_color(@blue);
+}
+.btn-pink:extend(.btn) {
+  .button_color(@ping);
+}
+.btn-green:extend(.btn) {
+  .button_color(@green);
+}
+.btn-yellow:extend(.btn) {
+  .button_color(@yellow);
+}
+
+// Toolbar
+.toolbar:extend(.shadow) {
+  @height: 30px;
+  @color: #fff;
+  .a(@color);
+  height: @height;
+  padding: @padding_1x;
+  color: @color;
+  line-height: @height;
+  font-size: @height;
+  background-color: @blue;
 }
 
 // project-list
 .project-list {
-  .item {
-    .card();
+  padding: @padding_1x/2;
+  .item:extend(.card) {
     float: left;
     width: 300px;
   }
 }
-.tad-list {
-  float: left;
-  width: 300px;
-  .item {
-    .card();
+// project
+.project {
+  padding: @padding_1x/2;
+  .title {
+    padding-left: @padding_1x/2;
+  }
+  // tad-list
+  .tad-list {
+    float: left;
+    width: 300px;
+    .item:extend(.card) {
+    }
   }
 }

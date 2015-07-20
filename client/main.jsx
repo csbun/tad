@@ -1,11 +1,11 @@
 var { Link, Route, DefaultRoute, RouteHandler } = ReactRouter;
 
 var TapidApp = React.createClass({
-  render: function () {
+  render() {
     return (
       <div>
-        <nav>
-          <Link to="home">Home</Link>
+        <nav className="toolbar">
+          <Link to="home">TAD</Link>
         </nav>
         <RouteHandler/>
       </div>

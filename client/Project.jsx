@@ -6,12 +6,12 @@ Project = React.createClass({
   render() {
     var tadList = this.data._id ? <TadList {...this.data}></TadList> : <div></div>;
     var tad = this.props.params.tadId ? <Tad {...this.props.params}></Tad> : <div></div>;
-    return <div>
-      <div>
+    return <div className="project">
+      <div className="title">
         <h1>{this.data.name}</h1>
         <p><a href={this.data.git}>{this.data.git}</a></p>
-        { tadList }
       </div>
+      { tadList }
       <div>
         { tad }
       </div>

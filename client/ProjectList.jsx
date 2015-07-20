@@ -21,14 +21,16 @@ ProjectListEditItem = React.createClass({
     this.setState(Object.assign({}, nextProps));
   },
   render() {
-    let btns = this.state._id ?
-        <p>
-          <button onClick={this._onUpdateItem}>修改</button>
-          <button onClick={this._onRemoveItem}>删除</button>
-          <Link to="project" params={{projectId: this.state._id}}>进入</Link>
-        </p>
-        :
-        <p><button onClick={this._onInsertItem}>添加</button></p>;
+    var btns;
+    if (this.state._id ) {
+      btns = (<p>
+        <button className="btn-blue" onClick={this._onUpdateItem}>修改</button>
+        {/*<button className="btn-pink" onClick={this._onRemoveItem}>删除</button>*/}
+        <Link className="btn-yellow" to="project" params={{projectId: this.state._id}}>进入</Link>
+      </p>);
+    } else {
+      btns = <p><button className="btn-green" onClick={this._onInsertItem}>添加</button></p>;
+    }
 
     return <li className="item">
       <input type="text" placeholder="name" valueLink={this.linkState('name')}></input>
