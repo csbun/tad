@@ -3,6 +3,9 @@ CmpCodeArea = React.createClass({
     return this.refs.textarea.getDOMNode().value;
   },
   render() {
-    return <textarea rows="6" {...this.props} ref="textarea"></textarea>;
+      let { className, label, ...rest } = this.props;
+      return <CmpInput className={className} label={label}>
+        <textarea rows="6" {...rest} ref="textarea"></textarea>
+      </CmpInput>;
   }
 });

@@ -4,15 +4,21 @@ Project = React.createClass({
     return CollectionProjects.findOne(this.props.params.projectId) || {};
   },
   render() {
-    var tadList = this.data._id ? <TadList {...this.data}></TadList> : <div></div>;
-    var tad = this.props.params.tadId ? <Tad {...this.props.params}></Tad> : <div></div>;
+    var tadList = this.data._id ?
+      <div className="tad-list">
+        <TadList {...this.data}></TadList>
+      </div> : <div></div>;
+    var tad = this.props.params.tadId ?
+      <div className="piece tad">
+        <Tad {...this.props.params}></Tad>
+      </div> : <div></div>;
     return <div className="project">
-      <div className="title">
-        <h1>{this.data.name}</h1>
-        <p><a href={this.data.git}>{this.data.git}</a></p>
-      </div>
-      { tadList }
-      <div>
+      <h1 className="title">
+        {this.data.name}&nbsp;
+        <small><a href={this.data.git} target="_blank"><span className="fa fa-git-square"></span></a></small>
+      </h1>
+      <div className="flex-wrap">
+        { tadList }
         { tad }
       </div>
     </div>;

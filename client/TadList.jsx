@@ -7,7 +7,7 @@ TadListItem = React.createClass({
       <Link to="tad" params={{projectId: this.props.projectId, tadId: this.props._id}}>
         <span className="name">{name}</span>
       </Link>
-      (<span className="path">{path}</span>)
+      <small className="path">&nbsp;({path})</small>
     </li>;
   }
 });
@@ -24,9 +24,13 @@ TadListAddItem = React.createClass({
   },
   render: function() {
     return <li className="item">
-      <input type="text" placeholder="name" valueLink={this.linkState('name')}></input>
-      <input type="text" placeholder="path" valueLink={this.linkState('path')}></input>
-      <button onClick={this._onAddItem}>添加</button>
+      <CmpInput label="API Name">
+        <input type="text" placeholder="name" valueLink={this.linkState('name')}></input>
+      </CmpInput>
+      <CmpInput label="API Path">
+        <input type="text" placeholder="path" valueLink={this.linkState('path')}></input>
+      </CmpInput>
+      <button className="btn-green" onClick={this._onAddItem}>添加</button>
     </li>;
   },
   _onAddItem() {
@@ -51,7 +55,7 @@ TadList = React.createClass({
     };
   },
   render() {
-    return <ul className="tad-list">
+    return <ul>
       { this.data.tads.map(t =>
         <TadListItem key={t._id} projectId={this.props._id} {...t}></TadListItem>
       ) }

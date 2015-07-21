@@ -1,6 +1,7 @@
 @padding_1x: 10px;
 @font_size: 16px;
 
+@black: #333;
 @blue: #4285F4;
 @blue_light: #00BCD4;
 @gray: #E3E7EA;
@@ -28,15 +29,35 @@ body {
   .a(@blue_light);
   font-family: '微软雅黑','Open Sans','Helvetica Neue',Helvetica,Arial,sans-serif;
   font-size: @font_size;
+  color: @black;
   background-color: @gray;
 }
 li {
   list-style: none;
 }
+h1 {
+  font-size: @font_size*1.8;
+  margin: @padding_1x 0 @padding_1x/2;
+}
+h2 {
+  font-size: @font_size*1.5;
+  margin: @padding_1x/2 0 @padding_1x/4;
+}
+small {
+  font-size: 0.6em;
+}
 
 /**
  * base
  */
+.clear {
+  &:after {
+    content: "";
+    display: block;
+    visibility: hidden;
+    clear: both;
+  }
+}
 .transition {
   transition: 0.3s all;
 }
@@ -48,23 +69,42 @@ li {
   margin: @padding_1x @padding_1x/2;
   background-color: #fff;
 }
-
+.flex-wrap {
+  display: flex;
+  .piece:extend(.clear all) {
+    flex: 1;
+  }
+}
 
 /**
  * cmp
  */
-input {
-  display: inline-block;
+.input {
   box-sizing: border-box;
+  flex: 1;
   width: 100%;
   margin: @padding_1x/2 0;
-  padding: @padding_1x/2 @padding_1x/2 2px;
-  border: none;
-  border-bottom: 1px solid @gray;
+  padding: @padding_1x/2 @padding_1x/2 4px;
   outline: none;
   font-size: @font_size;
   &:focus {
-    border-bottom-color: @blue;
+    border-color: @blue;
+  }
+}
+.cmp-input:extend(.flex-wrap) {
+  label {
+    padding: 0 0 2px @padding_1x/2;
+    margin: @padding_1x/2 0;
+    width: 80px;
+    background: @gray;
+    color: @blue;
+  }
+  input:extend(.input all) {
+    border: none;
+    border-bottom: 1px solid @gray;
+  }
+  textarea:extend(.input all) {
+    border: 1px solid @gray;
   }
 }
 
@@ -125,16 +165,19 @@ input {
   }
 }
 // project
-.project {
-  padding: @padding_1x/2;
+.project:extend(.clear all) {
+  @width: 300px;
+  padding: @padding_1x @padding_1x/2 @padding_1x/2;
   .title {
     padding-left: @padding_1x/2;
   }
   // tad-list
   .tad-list {
-    float: left;
-    width: 300px;
+    width: @width;
     .item:extend(.card) {
     }
+  }
+  .tad:extend(.card) {
+
   }
 }
