@@ -21,8 +21,11 @@ Tad = React.createClass({
         value={this.data.path}
       ></CmpInput>
       <div>
+        <h3>参数列表</h3>
         <TadParamList ref="params" params={params} onSave={this._onSave}></TadParamList>
+        <h3>正常响应</h3>
         <CmpCodeArea ref="res" label="Response" value={this.data.res}></CmpCodeArea>
+        <h3>测试规则</h3>
         <TadRuleList ref="rules" params={params} rules={rules}></TadRuleList>
       </div>
       <div>

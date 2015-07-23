@@ -5,6 +5,7 @@
 @blue: #4285F4;
 @blue_light: #00BCD4;
 @gray: #E3E7EA;
+@gray_light: #EEE;
 @green: #34A853;
 @ping: #FF4081;
 @red: #EA4335;
@@ -75,7 +76,9 @@ small {
     flex: 1;
   }
 }
-
+.fr {
+  float: right;
+}
 /**
  * cmp
  */
@@ -96,7 +99,7 @@ small {
     padding: 0 0 2px @padding_1x/2;
     margin: @padding_1x/2 0;
     width: 80px;
-    background: @gray;
+    background: @gray_light;
     color: @blue;
   }
   input:extend(.input all) {

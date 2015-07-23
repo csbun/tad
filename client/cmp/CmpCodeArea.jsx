@@ -17,8 +17,9 @@ CmpCodeArea = React.createClass({
     });
   },
   render() {
-      return <CmpInput {...this.props}>
-        <textarea rows="6" valueLink={this.linkState('value')}></textarea>
-      </CmpInput>;
+    let { className, label, value, ...rest } = this.props;
+    return <CmpInput className={className} label={label} value={value}>
+      <textarea rows="6" {...rest} valueLink={this.linkState('value')}></textarea>
+    </CmpInput>;
   }
 });

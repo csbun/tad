@@ -18,7 +18,11 @@ CmpSelect = React.createClass({
   },
   render() {
       return <CmpInput {...this.props}>
-        <select></select>
+        <select>
+          { this.props.items.map(i =>
+            <option value={i.val}>{i.display}</option>
+          ) }
+        </select>
       </CmpInput>;
   }
 });
