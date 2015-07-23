@@ -1,7 +1,7 @@
-CmpCodeArea = React.createClass({
+CmpSelect = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
   propTypes: {
-    value: React.PropTypes.string
+    items: React.PropTypes.array.isRequired
   },
   getInitialState() {
     return {
@@ -18,7 +18,7 @@ CmpCodeArea = React.createClass({
   },
   render() {
       return <CmpInput {...this.props}>
-        <textarea rows="6" valueLink={this.linkState('value')}></textarea>
+        <select></select>
       </CmpInput>;
   }
 });

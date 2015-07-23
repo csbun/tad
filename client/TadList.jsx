@@ -1,8 +1,12 @@
 let { Link } = ReactRouter;
 
-TadListItem = React.createClass({
+let TadListItem = React.createClass({
+  propTypes: {
+    projectId: React.PropTypes.string.isRequired,
+    _id: React.PropTypes.string.isRequired
+  },
   render: function() {
-    var { name, path, ...rest } = this.props;
+    let { name, path, ...rest } = this.props;
     return <li className="item" {...rest}>
       <Link to="tad" params={{projectId: this.props.projectId, tadId: this.props._id}}>
         <span className="name">{name}</span>
@@ -13,8 +17,11 @@ TadListItem = React.createClass({
 });
 
 
-TadListAddItem = React.createClass({
+let TadListAddItem = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
+  propTypes: {
+    projectId: React.PropTypes.string.isRequired
+  },
   getInitialState: function() {
     return {
       projectId: this.props.projectId,
@@ -47,6 +54,9 @@ TadListAddItem = React.createClass({
 
 TadList = React.createClass({
   mixins: [ReactMeteorData],
+  propTypes: {
+    _id: React.PropTypes.string.isRequired
+  },
   getMeteorData() {
     return {
       tads: CollectionTads.find({

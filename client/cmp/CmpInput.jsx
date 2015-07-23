@@ -1,15 +1,27 @@
 CmpInput = React.createClass({
-  getValue() {
-    return this.refs.input.getDOMNode().value;
+  mixins: [React.addons.LinkedStateMixin],
+  propTypes: {
+    label: React.PropTypes.string,
+    value: React.PropTypes.string
   },
-  // componentWillReceiveProps(nextProps) {
-  //   reset input when defaultValue reset
-  // },
+  getInitialState() {
+    return {
+      value: this.props.value
+    };
+  },
+  getValue() {
+    return this.state.value;
+  },
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      value: nextProps.value
+    });
+  },
   render() {
-    let { className, label, ...rest } = this.props;
+    let { className, label } = this.props;
     return <div className={className || '' + ' cmp-input'}>
       { label ? <label>{label}</label> : null }
-      { this.props.children || <input {...rest} ref="input" /> }
+      { this.props.children || <input valueLink={this.linkState('value')} /> }
     </div>;
   }
 });

@@ -1,5 +1,8 @@
 Project = React.createClass({
   mixins: [ReactMeteorData],
+  propTypes: {
+    params: React.PropTypes.object.isRequired
+  },
   getMeteorData() {
     return CollectionProjects.findOne(this.props.params.projectId) || {};
   },

@@ -22,7 +22,7 @@ var routes = (
 );
 
 
-$(document).ready(function () {
+Meteor.startup(function () {
   ReactRouter.run(routes, function (Handler) {
     React.render(<Handler/>, document.body);
   });

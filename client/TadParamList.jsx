@@ -1,39 +1,59 @@
-var TadParamListEditItem = React.createClass({
-  getInitialState: function() {
-    return Object.assign({key: ''}, this.props);
+let TadParamListEditItem = React.createClass({
+  propTypes: {
+    onSave: React.PropTypes.func.isRequired
+  },
+  getInitialState() {
+    return Object.assign({param: ''}, this.props);
+  },
+  componentWillReceiveProps(nextProps) {
+    this.setState(Object.assign({param: ''}, nextProps));
   },
   render() {
+    let btnClassName = this.props.param ? 'btn-blue' : 'btn-green';
     return <div className="flex-wrap">
-      <CmpInput ref="key" label="Param" defaultValue={this.state.key}></CmpInput>
-      <CmpInput ref="type" label="Type" defaultValue={this.state.type}></CmpInput>
-      <button className="btn-green" onClick={this._onSave}>Add</button>
+      <CmpInput ref="param" label="Param" value={this.state.param}></CmpInput>
+      <CmpInput ref="type" label="Type" value={this.state.type}></CmpInput>
+      <button className={btnClassName} onClick={this._onSave}>✓</button>
     </div>;
   },
   _onSave() {
-    var data = {};
+    let data = {};
     for (let ref of Object.keys(this.refs)) {
       if (this.refs[ref].getValue) {
         data[ref] = this.refs[ref].getValue();
       }
     }
-    if (!data.key) {
-      alert('key & tyoe should be seted!');
+    if (!data.param) {
+      alert('param & type should be seted!');
       return;
     } else {
       this.props.onSave(data, this.props);
-      this.setState({
-        key: ''
-      });
     }
   }
 });
 
-TadParamList = React.createClass({
-  getInitialState: function() {
+function copyArray(arr) {
+  if (arr instanceof Array) {
+    return arr.concat();
+  } else {
+    return [];
+  }
+}
 
+TadParamList = React.createClass({
+  propTypes: {
+    params: React.PropTypes.array,
+    onSave: React.PropTypes.func.isRequired
+  },
+  getInitialState: function() {
     return {
-      params: (this.props.params || []).concat()
+      params: copyArray(this.props.params)
     };
+  },
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      params: copyArray(nextProps.params)
+    });
   },
   getValue() {
     return this.state.params;
@@ -41,24 +61,35 @@ TadParamList = React.createClass({
   render() {
     return <div>
       { this.state.params.map(p =>
-        <p {...p}>{p.key} | {p.type}</p>
+        <TadParamListEditItem key={p.param} {...p} onSave={this._onSave}></TadParamListEditItem>
       ) }
       <TadParamListEditItem onSave={this._onAdd}></TadParamListEditItem>
     </div>;
   },
-  _onSave(data) {
-    console.log(data);
-  },
-  _onAdd(data) {
+  _onSave(data, oldData) {
     for (let p of this.state.params) {
-      if (data.key === p.key) {
-        alert('same key: ' + data.key);
+      if (oldData.param === p.param) {
+        Object.assign(p, data);
+        this.setState({
+          params: this.state.params
+        });
+        this.props.onSave();
         return;
       }
     }
-    var arr = this.state.params.concat(data);
+  },
+  _onAdd(data) {
+    for (let p of this.state.params) {
+      if (data.param === p.param) {
+        alert('same param: ' + data.param);
+        return;
+      }
+    }
+    let arr = this.state.params.concat(data);
     this.setState({
       params: arr
     });
+    console.log('params add');
+    this.props.onSave();
   }
 });

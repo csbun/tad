@@ -36,7 +36,7 @@ ProjectListEditItem = React.createClass({
       <CmpInput label="Project">
         <input type="text" placeholder="name" valueLink={this.linkState('name')}></input>
       </CmpInput>
-      <CmpInput label="URL">
+      <CmpInput label="Git URL">
         <input type="url" placeholder="git" valueLink={this.linkState('git')}></input>
       </CmpInput>
       { btns }
