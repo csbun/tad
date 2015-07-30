@@ -89,7 +89,6 @@ TadParamList = React.createClass({
     this.setState({
       params: arr
     });
-    console.log('params add');
     this.props.onSave();
   }
 });

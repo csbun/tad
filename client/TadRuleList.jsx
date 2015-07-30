@@ -31,18 +31,28 @@ let TadRuleItemParam = React.createClass({
 
 let TadRuleListEditItem = React.createClass({
   propTypes: {
-    // onSave: React.PropTypes.func.isRequired,
+    onSave: React.PropTypes.func.isRequired,
+    _id: React.PropTypes.string,
+    tadId: React.PropTypes.string,
     params: React.PropTypes.array,
     res: React.PropTypes.string
   },
   getInitialState() {
-    return Object.assign({res: '', params: []}, this.props);
+    return {
+      _id: this.props._id,
+      tadId: this.props.tadId,
+      params: this.props.params || [],
+      res: this.props.res || ''
+    };
   },
   componentWillReceiveProps(nextProps) {
-    this.setState(Object.assign({res: ''}, nextProps));
+    this.setState({
+      params: nextProps.params || [],
+      res: nextProps.res || ''
+    });
   },
   render() {
-    let btnClassName = this.props.param ? 'btn-blue' : 'btn-green';
+    let btnClassName = this.props._id ? 'btn-blue' : 'btn-green';
     return <div className="clear">
       <div>
         { this.state.params.map(p =>
@@ -50,7 +60,7 @@ let TadRuleListEditItem = React.createClass({
         ) }
         <TadRuleItemParam onSave={this._onAddParam}></TadRuleItemParam>
       </div>
-      <CmpCodeArea label="Response" rows="4" value={this.state.res}></CmpCodeArea>
+      <CmpCodeArea ref="res" label="Response" rows="4" value={this.state.res}></CmpCodeArea>
       <button className={"fr " + btnClassName} onClick={this._onSave}>Save</button>
     </div>;
   },
@@ -59,7 +69,8 @@ let TadRuleListEditItem = React.createClass({
       if (oldData.param === p.param) {
         Object.assign(p, data);
         this.setState({
-          params: this.state.params
+          params: this.state.params,
+          res: this.refs.res.getValue()
         });
         return;
       }
@@ -68,34 +79,55 @@ let TadRuleListEditItem = React.createClass({
   _onAddParam(data) {
     for (let p of this.state.params) {
       if (data.param === p.param) {
-        alert('same param = : ' + data.param);
+        alert('same param: ' + data.param);
         return;
       }
     }
     let arr = this.state.params.concat(data);
     this.setState({
-      params: arr
+      params: arr,
+      res: this.refs.res.getValue()
+    });
+  },
+  _onResChange() {
+    this.setState({
+      res: this.refs.res.getValue()
     });
   },
   _onSave() {
-    console.log(this.state);
+    this.state.res = this.refs.res.getValue();
+    this.props.onSave(this.state);
   }
 });
 
 TadRuleList = React.createClass({
+  mixins: [ReactMeteorData],
   propTypes: {
-    rules: React.PropTypes.array
+    tadId: React.PropTypes.string.isRequired
+  },
+  getMeteorData() {
+    return {
+      rules: CollectionRules.find({
+        tadId: this.props.tadId
+      }).fetch()
+    };
   },
   getValue() {
-    // TODO
-    return [];
+    return this.data.rules;
   },
   render() {
     return <div>
-      { (this.props.rules || []).map(r =>
-        <TadRuleListEditItem {...r}></TadRuleListEditItem>
+      { this.data.rules.map(r =>
+        <TadRuleListEditItem key={r._id} {...r} onSave={this._onSave}></TadRuleListEditItem>
       ) }
-      <TadRuleListEditItem></TadRuleListEditItem>
+      <TadRuleListEditItem onSave={this._onAdd}></TadRuleListEditItem>
     </div>;
+  },
+  _onAdd(data) {
+    data.tadId = this.props.tadId;
+    CollectionRules.insert(data);
+  },
+  _onSave(data) {
+    CollectionRules.update(data._id, data);
   }
 });
