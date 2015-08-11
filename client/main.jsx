@@ -17,6 +17,7 @@ var routes = (
   <Route name="home" path="/" handler={TapidApp}>
     <Route name="project" path="project/:projectId" handler={Project}/>
     <Route name="tad" path="project/:projectId/:tadId" handler={Project}/>
+    <Route name="test" path="test/:projectId" handler={TestList}/>
     <DefaultRoute handler={ProjectList}/>
   </Route>
 );
