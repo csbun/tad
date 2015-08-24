@@ -64,11 +64,6 @@ export class ProjectList {
     });
   }
 
-  // 跳转到 Project
-  routeTo(p) {
-    console.log(p);
-  }
-
   // 选中行，准备编辑
   selectRow(p) {
     for (let k of Object.keys(this.porjectForm.controls)) {
@@ -94,8 +89,7 @@ export class ProjectList {
       CollectionProjects.update(value._id, value, cb);
     } else {
       // add
-      delete value._id;
-      CollectionProjects.insert(value, cb);
+      CollectionProjects.insert(_.omit(value, '_id'), cb);
     }
   }
 }

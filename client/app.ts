@@ -21,6 +21,7 @@ import {Project} from 'client/project/project';
 @RouteConfig([
   {path: '/',  component: ProjectList},
   {path: '/project/:projectId', as: 'project', component: Project},
+  {path: '/project/:projectId/:apiId', as: 'project-api', component: Project},
 ])
 class Tad {
 
