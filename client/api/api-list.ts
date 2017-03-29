@@ -34,6 +34,7 @@ import {ApiForm} from 'client/api/api-form';
               <td>{{api.path}}</td>
               <td>
                 <a class="label" [router-link]="['/project-api', {projectId: projectId, apiId: api._id}]">edit</a>
+                <a class="label" [router-link]="['/api', {apiId: api._id}]">go</a>
               </td>
             </tr>
           </tbody>

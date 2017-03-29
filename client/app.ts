@@ -10,6 +10,7 @@ import {
 
 import {ProjectList} from 'client/project/project-list';
 import {Project} from 'client/project/project';
+import {Api} from 'client/api/api';
 
 @Component({
   selector: 'app'
@@ -22,6 +23,7 @@ import {Project} from 'client/project/project';
   {path: '/',  component: ProjectList},
   {path: '/project/:projectId', as: 'project', component: Project},
   {path: '/project/:projectId/:apiId', as: 'project-api', component: Project},
+  {path: '/api/:apiId', as: 'api', component: Api},
 ])
 class Tad {
 
